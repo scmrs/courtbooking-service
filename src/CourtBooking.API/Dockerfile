@@ -12,15 +12,13 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["src/Services/CourtBooking/CourtBooking.API/CourtBooking.API.csproj", "src/Services/CourtBooking/CourtBooking.API/"]
-COPY ["src/Services/CourtBooking/CourtBooking.Application/CourtBooking.Application.csproj", "src/Services/CourtBooking/CourtBooking.Application/"]
-COPY ["src/BuildingBlocks/BuildingBlocks.Messaging/BuildingBlocks.Messaging.csproj", "src/BuildingBlocks/BuildingBlocks.Messaging/"]
-COPY ["src/BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj", "src/BuildingBlocks/BuildingBlocks/"]
-COPY ["src/Services/CourtBooking/CourtBooking.Domain/CourtBooking.Domain.csproj", "src/Services/CourtBooking/CourtBooking.Domain/"]
-COPY ["src/Services/CourtBooking/CourtBooking.Infrastructure/CourtBooking.Infrastructure.csproj", "src/Services/CourtBooking/CourtBooking.Infrastructure/"]
-RUN dotnet restore "./src/Services/CourtBooking/CourtBooking.API/CourtBooking.API.csproj"
+COPY ["src/CourtBooking.API/CourtBooking.API.csproj", "src/CourtBooking.API/"]
+COPY ["src/CourtBooking.Application/CourtBooking.Application.csproj", "src/CourtBooking.Application/"]
+COPY ["src/CourtBooking.Domain/CourtBooking.Domain.csproj", "src/CourtBooking.Domain/"]
+COPY ["src/CourtBooking.Infrastructure/CourtBooking.Infrastructure.csproj", "src/CourtBooking.Infrastructure/"]
+RUN dotnet restore "./src/CourtBooking.API/CourtBooking.API.csproj"
 COPY . .
-WORKDIR "/src/src/Services/CourtBooking/CourtBooking.API"
+WORKDIR "/src/src/CourtBooking.API"
 RUN dotnet build "./CourtBooking.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
